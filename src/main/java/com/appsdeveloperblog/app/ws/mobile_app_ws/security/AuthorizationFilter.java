@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.crypto.SecretKey;
 
 import com.appsdeveloperblog.app.ws.mobile_app_ws.security.SecurityConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Slf4j
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
     public AuthorizationFilter(AuthenticationManager authManager) {
@@ -62,6 +64,10 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
         Claims claims = parser.parseSignedClaims(token).getPayload();
         String subject = (String) claims.get("sub");
+
+        log.info("AuthorizationFilter [ getAuthentication ] {} ", subject); // this gives email
+
+        log.info("AuthorizationFilter [ getAuthentication ] {} ", claims); //this gives sub, exp, iat
 
         if (subject == null) {
             return null;

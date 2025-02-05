@@ -131,6 +131,9 @@ public class UserServiceImpl implements UserService {
 
         List<UserDto> returnValue = new ArrayList<>();
 
+        if(page > 0)
+            page -= 1;
+
         Pageable pageableRequest =  PageRequest.of(page, limit);
 
         Page<UserEntity> userPage = userRepository.findAll(pageableRequest);
